@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vinny</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --secondary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --accent-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body, button, input, select, textarea {
+            font-family: 'Work Sans', sans-serif;
+        }
+
+        .title, .subtitle, .mono-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--accent-gradient);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* Hero Section */
+        .hero-gradient {
+            background: var(--primary-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .glass-card .card-content {
+            flex-grow: 1;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            border-right: 2px solid white;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: white; }
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease;
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Enhanced Timeline */
+        .timeline-enhanced {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline-enhanced::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
+
+        .timeline-item-enhanced {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item-enhanced::before {
+            content: '';
+            position: absolute;
+            left: -2.2rem;
+            top: 1rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            border: 3px solid white;
+        }
+
+        /* Enhanced Buttons */
+        .btn-enhanced {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-enhanced:hover::before {
+            left: 100%;
+        }
+
+        /* Responsive Typography */
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        /* Pulse Animation */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Footer */
+        .footer-gradient {
+            background: var(--primary-gradient);
+        }
+
+        /* Ko-fi Widget Container */
+        #kofi-widget-container {
+            margin: 20px 0;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .timeline-enhanced {
+                padding-left: 2rem;
+            }
+            
+            .timeline-item-enhanced::before {
+                left: -1.5rem;
+                width: 12px;
+                height: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Hero Section -->
+    <section class="hero is-large hero-gradient">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h1 class="title hero-title has-text-white typewriter mono-font">
+                            💻 Vinny
+                        </h1>
+                        <div class="buttons is-centered mt-6 fade-in-up">
+                            <a href="#about" class="button is-white is-outlined is-large btn-enhanced">
+                                <span class="icon">👤</span>
+                                <span data-translate="hero_button_about">Sobre Mim</span>
+                            </a>
+                            <a href="#projects" class="button is-warning is-large btn-enhanced pulse">
+                                <span class="icon">🚀</span>
+                                <span data-translate="hero_button_projects">Projetos</span>
+                            </a>
+                            <a href="#donate" class="button is-success is-large btn-enhanced">
+                                <span class="icon">❤️</span>
+                                <span data-translate="hero_button_support">Apoiar</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8 is-offset-2">
+                    <h2 class="title is-2 has-text-centered mb-6 fade-in-up" data-translate="about_title">
+                        👨‍💻 Sobre Mim
+                    </h2>
+                    <div class="content is-large has-text-centered mb-6 fade-in-up">
+                        <p data-translate="about_text">Entusiasta da comunidade phpBB há mais de uma década, tenho o desenvolvimento de software como um hobby. Dedico meu tempo livre à criação de extensões, estilos e traduções, com o objetivo de tornar os fóruns mais acessíveis e funcionais para todos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section has-background-light">
+        <div class="container">
+            <h2 class="title is-2 has-text-centered mb-6 fade-in-up" data-translate="projects_title">
+                🚀 Projetos em Destaque
+            </h2>
+            <div class="columns is-multiline is-centered">
+                <!-- Project 1: Tradução -->
+                <div class="column is-one-third stagger-item">
+                    <div class="card glass-card">
+                        <div class="card-content">
+                            <h3 class="title is-4" data-translate="project_translation_title">🌐 Tradução para PT-BR</h3>
+                            <p class="mb-4" data-translate="project_translation_desc">A tradução oficial que torna o phpBB totalmente acessível para a comunidade de língua portuguesa.</p>
+                            <div class="tags">
+                                <span class="tag is-primary" data-translate="project_translation_tag1">Tradução</span>
+                                <span class="tag is-info" data-translate="project_translation_tag2">Localização</span>
+                            </div>
+                        </div>
+                        <footer class="card-footer p-2">
+                           <a href="https://www.phpbb.com/customise/db/translation/brazilian_portuguese/" target="_blank" class="button is-link is-light is-fullwidth btn-enhanced" data-translate="project_button_view">Ver Projeto</a>
+                        </footer>
+                    </div>
+                </div>
+
+                <!-- Project 2: Share On -->
+                <div class="column is-one-third stagger-item">
+                    <div class="card glass-card">
+                        <div class="card-content">
+                            <h3 class="title is-4" data-translate="project_shareon_title">🔗 Share On</h3>
+                            <p class="mb-4" data-translate="project_shareon_desc">Extensão que permite compartilhar tópicos do fórum em diversas redes sociais com facilidade.</p>
+                             <div class="tags">
+                                <span class="tag is-success" data-translate="project_tag_extension">Extensão</span>
+                                <span class="tag is-warning" data-translate="project_shareon_tag2">Redes Sociais</span>
+                            </div>
+                        </div>
+                        <footer class="card-footer p-2">
+                           <a href="https://www.phpbb.com/customise/db/extension/shareon/" target="_blank" class="button is-link is-light is-fullwidth btn-enhanced" data-translate="project_button_view">Ver Projeto</a>
+                        </footer>
+                    </div>
+                </div>
+
+                <!-- Project 3: Youtube Gallery -->
+                <div class="column is-one-third stagger-item">
+                    <div class="card glass-card">
+                        <div class="card-content">
+                            <h3 class="title is-4" data-translate="project_ytgallery_title">🎥 YouTube Videos Gallery</h3>
+                            <p class="mb-4" data-translate="project_ytgallery_desc">Cria uma galeria de vídeos do YouTube diretamente no fórum, organizando o conteúdo de forma visual.</p>
+                             <div class="tags">
+                                <span class="tag is-success" data-translate="project_tag_extension">Extensão</span>
+                                <span class="tag is-danger">YouTube</span>
+                            </div>
+                        </div>
+                         <footer class="card-footer p-2">
+                           <a href="https://www.phpbb.com/customise/db/extension/youtube_videos_gallery/" target="_blank" class="button is-link is-light is-fullwidth btn-enhanced" data-translate="project_button_view">Ver Projeto</a>
+                        </footer>
+                    </div>
+                </div>
+                
+                <!-- Project 4: Giphy -->
+                <div class="column is-one-third stagger-item">
+                    <div class="card glass-card">
+                        <div class="card-content">
+                            <h3 class="title is-4" data-translate="project_giphy_title">✨ Giphy</h3>
+                            <p class="mb-4" data-translate="project_giphy_desc">Integra a busca de GIFs do Giphy diretamente no editor de postagens, tornando as conversas mais dinâmicas.</p>
+                             <div class="tags">
+                                <span class="tag is-success" data-translate="project_tag_extension">Extensão</span>
+                                <span class="tag is-info">GIFs</span>
+                            </div>
+                        </div>
+                         <footer class="card-footer p-2">
+                           <a href="https://www.phpbb.com/community/viewtopic.php?t=2663497" target="_blank" class="button is-link is-light is-fullwidth btn-enhanced" data-translate="project_button_view">Ver Projeto</a>
+                        </footer>
+                    </div>
+                </div>
+
+                <!-- Project 5: Feed Post Bot -->
+                <div class="column is-one-third stagger-item">
+                    <div class="card glass-card">
+                        <div class="card-content">
+                            <h3 class="title is-4" data-translate="project_feedbot_title">🤖 Feed Post Bot</h3>
+                            <p class="mb-4" data-translate="project_feedbot_desc">Um bot que posta automaticamente conteúdo de feeds RSS/Atom em um fórum específico.</p>
+                             <div class="tags">
+                                <span class="tag is-success" data-translate="project_tag_extension">Extensão</span>
+                                <span class="tag is-dark" data-translate="project_feedbot_tag2">Bot</span>
+                                <span class="tag is-warning" data-translate="project_feedbot_tag3">Automação</span>
+                            </div>
+                        </div>
+                         <footer class="card-footer p-2">
+                           <a href="https://www.phpbb.com/customise/db/extension/feedpostbot/" target="_blank" class="button is-link is-light is-fullwidth btn-enhanced" data-translate="project_button_view">Ver Projeto</a>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- References Section -->
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-10 is-offset-1">
+                    <h2 class="title is-2 has-text-centered mb-6 fade-in-up" data-translate="references_title">
+                        🏆 Referências
+                    </h2>
+                    <div class="timeline-enhanced">
+                        <div class="timeline-item-enhanced stagger-item">
+                            <div class="glass-card p-5">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-64x64">
+                                            <span class="icon is-large has-text-info" style="font-size: 3rem;">🌍</span>
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4" data-translate="ref_item1_title">phpBB International Support Teams</p>
+                                        <p class="subtitle is-6 has-text-grey mono-font" data-translate="ref_item1_subtitle">2011 - presente • 13+ anos</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <p data-translate="ref_item1_desc">Membro ativo das equipes internacionais de suporte do phpBB, ajudando usuários ao redor do mundo com questões técnicas e administrativas.</p>
+                                    <div class="tags mt-3">
+                                        <span class="tag is-info" data-translate="ref_item1_tag1">Support</span>
+                                        <span class="tag is-primary" data-translate="ref_item1_tag2">International</span>
+                                        <span class="tag is-link" data-translate="ref_item1_tag3">Community</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item-enhanced stagger-item">
+                            <div class="glass-card p-5">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-64x64">
+                                            <span class="icon is-large has-text-success" style="font-size: 3rem;">🌐</span>
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4" data-translate="ref_item2_title">phpBB Translator - Português Brasileiro</p>
+                                        <p class="subtitle is-6 has-text-grey mono-font" data-translate="ref_item2_subtitle">Co-autor • 2011 - presente</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <p data-translate="ref_item2_desc">Co-autor da tradução oficial do phpBB para português brasileiro, responsável por manter a localização atualizada e culturalmente apropriada.</p>
+                                    <div class="tags mt-3">
+                                        <span class="tag is-success" data-translate="ref_item2_tag1">Translation</span>
+                                        <span class="tag is-danger" data-translate="ref_item2_tag2">Portuguese</span>
+                                        <span class="tag is-info" data-translate="ref_item2_tag3">Localization</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item-enhanced stagger-item">
+                            <div class="glass-card p-5">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-64x64">
+                                            <span class="icon is-large has-text-warning" style="font-size: 3rem;">✅</span>
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4" data-translate="ref_item3_title">phpBB Jr. Style Validators</p>
+                                        <p class="subtitle is-6 has-text-grey mono-font" data-translate="ref_item3_subtitle">Jun 2011 - Set 2011</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <p data-translate="ref_item3_desc">Validador júnior de estilos phpBB, responsável por garantir qualidade, compatibilidade e conformidade dos temas submetidos.</p>
+                                    <div class="tags mt-3">
+                                        <span class="tag is-warning" data-translate="ref_item3_tag1">Validation</span>
+                                        <span class="tag is-dark" data-translate="ref_item3_tag2">Quality Control</span>
+                                        <span class="tag is-primary" data-translate="ref_item3_tag3">Styles</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item-enhanced stagger-item">
+                            <div class="glass-card p-5">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-64x64">
+                                            <span class="icon is-large has-text-primary" style="font-size: 3rem;">🎨</span>
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4" data-translate="ref_item4_title">phpBB Styles Team Member</p>
+                                        <p class="subtitle is-6 has-text-grey mono-font" data-translate="ref_item4_subtitle">Set 2011 - presente • 12+ anos</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <p data-translate="ref_item4_desc">Membro oficial da equipe de estilos do phpBB, desenvolvendo e mantendo temas oficiais para a plataforma, além de revisar contribuições da comunidade.</p>
+                                    <div class="tags mt-3">
+                                        <span class="tag is-link" data-translate="ref_item4_tag1">Development</span>
+                                        <span class="tag is-primary" data-translate="ref_item4_tag2">Design</span>
+                                        <span class="tag is-success" data-translate="ref_item4_tag3">Official Team</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item-enhanced stagger-item">
+                            <div class="glass-card p-5">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-64x64">
+                                            <span class="icon is-large has-text-danger" style="font-size: 3rem;">🇧🇷</span>
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4" data-translate="ref_item5_title">Suporte phpBB</p>
+                                        <p class="subtitle is-6 has-text-grey mono-font" data-translate="ref_item5_subtitle">Administrador • 2011 - presente</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <p data-translate="ref_item5_desc">Administrador do principal fórum de suporte phpBB em português brasileiro, oferecendo suporte técnico e gerenciando a comunidade.</p>
+                                    <div class="tags mt-3">
+                                        <span class="tag is-danger" data-translate="ref_item5_tag1">Administration</span>
+                                        <span class="tag is-link" data-translate="ref_item5_tag2">Community</span>
+                                        <span class="tag is-success" data-translate="ref_item5_tag3">Brazil</span>
+                                    </div>
+                                    <br>
+                                    <a href="https://www.suportephpbb.com.br" class="button is-small is-primary mt-3 btn-enhanced" target="_blank">
+                                        <span class="icon">🔗</span>
+                                        <span data-translate="ref_item5_button_visit">Visitar Fórum</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donate Section -->
+    <section id="donate" class="section has-background-light">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8 is-offset-2">
+                    <div class="glass-card p-6 has-text-centered fade-in-up">
+                        <div class="content">
+                            <h2 class="title is-3" data-translate="donate_title">
+                                💝 Apoie Meu Trabalho
+                            </h2>
+                            <p class="is-size-5 mb-5" data-translate="donate_text">
+                                Se você gosta das minhas extensões e estilos e quer demonstrar apreço, ou apoiar o desenvolvimento de novas extensões, você pode fazer uma doação.
+                            </p>
+                            
+                            <!-- Ko-fi Widget -->
+                            <div id="kofi-widget-container">
+                                <a href="https://ko-fi.com/J3J51IS0BE" target="_blank" class="button is-primary is-large btn-enhanced">
+                                    <span class="icon">☕</span>
+                                    <span data-translate="kofi_button_text">Apoiar no Ko-fi</span>
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer footer-gradient">
+        <div class="content has-text-centered has-text-white">
+            <p class="is-size-5">
+                <strong class="has-text-white mono-font">Vinny</strong>
+            </p>
+            <div class="buttons is-centered mt-4">
+                <a href="https://github.com/vinny" target="_blank" class="button is-white is-outlined btn-enhanced">
+                    <span class="icon">🐱</span>
+                    <span data-translate="footer_github">GitHub</span>
+                </a>
+                <a href="https://x.com/marcusvinny" target="_blank" class="button is-white is-outlined btn-enhanced">
+                    <span class="icon">🐦</span>
+                    <span data-translate="footer_twitter">X</span>
+                </a>
+            </div>
+            <p class="mt-4">
+                <span data-translate="footer_made_with">Feito com</span> 
+                <a href="https://bulma.io" target="_blank" class="has-text-white is-inline-flex is-align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <span>Bulma</span>
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        // --- INTERNATIONALIZATION (i18n) ---
+        const translations = {
+            'en': {
+                hero_button_about: "About Me",
+                hero_button_projects: "Projects",
+                hero_button_support: "Support",
+                about_title: "👨‍💻 About Me",
+                about_text: "An enthusiast of the phpBB community for over a decade, I have software development as a hobby. I dedicate my free time to creating extensions, styles, and translations, aiming to make forums more accessible and functional for everyone.",
+                projects_title: "🚀 Featured Projects",
+                project_translation_title: "🌐 Translation to PT-BR",
+                project_translation_desc: "The official translation that makes phpBB fully accessible to the Portuguese-speaking community.",
+                project_translation_tag1: "Translation",
+                project_translation_tag2: "Localization",
+                project_shareon_title: "🔗 Share On",
+                project_shareon_desc: "Extension that allows sharing forum topics on various social networks with ease.",
+                project_tag_extension: "Extension",
+                project_shareon_tag2: "Social Media",
+                project_ytgallery_title: "🎥 YouTube Videos Gallery",
+                project_ytgallery_desc: "Creates a YouTube video gallery directly in the forum, organizing content visually.",
+                project_giphy_title: "✨ Giphy",
+                project_giphy_desc: "Integrates Giphy's GIF search directly into the post editor, making conversations more dynamic.",
+                project_feedbot_title: "🤖 Feed Post Bot",
+                project_feedbot_desc: "A bot that automatically posts content from RSS/Atom feeds to a specific forum.",
+                project_feedbot_tag2: "Bot",
+                project_feedbot_tag3: "Automation",
+                project_button_view: "View Project",
+                references_title: "🏆 References",
+                ref_item1_title: "phpBB International Support Teams",
+                ref_item1_subtitle: "2011 - present • 13+ years",
+                ref_item1_desc: "Active member of the phpBB international support teams, helping users around the world with technical and administrative issues.",
+                ref_item1_tag1: "Support",
+                ref_item1_tag2: "International",
+                ref_item1_tag3: "Community",
+                ref_item2_title: "phpBB Translator - Brazilian Portuguese",
+                ref_item2_subtitle: "Co-author • 2011 - present",
+                ref_item2_desc: "Co-author of the official phpBB translation into Brazilian Portuguese, responsible for keeping the localization updated and culturally appropriate.",
+                ref_item2_tag1: "Translation",
+                ref_item2_tag2: "Portuguese",
+                ref_item2_tag3: "Localization",
+                ref_item3_title: "phpBB Jr. Style Validators",
+                ref_item3_subtitle: "Jun 2011 - Sep 2011",
+                ref_item3_desc: "Junior phpBB style validator, responsible for ensuring the quality, compatibility, and compliance of submitted themes.",
+                ref_item3_tag1: "Validation",
+                ref_item3_tag2: "Quality Control",
+                ref_item3_tag3: "Styles",
+                ref_item4_title: "phpBB Styles Team Member",
+                ref_item4_subtitle: "Sep 2011 - present • 12+ years",
+                ref_item4_desc: "Official member of the phpBB styles team, developing and maintaining official themes for the platform, as well as reviewing community contributions.",
+                ref_item4_tag1: "Development",
+                ref_item4_tag2: "Design",
+                ref_item4_tag3: "Official Team",
+                ref_item5_title: "Suporte phpBB",
+                ref_item5_subtitle: "Administrator • 2011 - present",
+                ref_item5_desc: "Administrator of the main phpBB support forum in Brazilian Portuguese, offering technical support and managing the community.",
+                ref_item5_tag1: "Administration",
+                ref_item5_tag2: "Community",
+                ref_item5_tag3: "Brazil",
+                ref_item5_button_visit: "Visit Forum",
+                donate_title: "💝 Support My Work",
+                donate_text: "If you like my extensions and styles and want to show appreciation, or support the development of new extensions, you can make a donation.",
+                kofi_button_text: "Support me on Ko-fi",
+                footer_github: "GitHub",
+                footer_twitter: "Twitter",
+                footer_made_with: "Made with"
+            },
+            'es': {
+                hero_button_about: "Sobre Mí",
+                hero_button_projects: "Proyectos",
+                hero_button_support: "Apoyar",
+                about_title: "👨‍💻 Sobre Mí",
+                about_text: "Entusiasta de la comunidad phpBB desde hace más de una década, tengo el desarrollo de software como un pasatiempo. Dedico mi tiempo libre a crear extensiones, estilos y traducciones, con el objetivo de hacer los foros más accesibles y funcionales para todos.",
+                projects_title: "🚀 Proyectos Destacados",
+                project_translation_title: "🌐 Traducción a PT-BR",
+                project_translation_desc: "La traducción oficial que hace que phpBB sea totalmente accesible para la comunidad de habla portuguesa.",
+                project_translation_tag1: "Traducción",
+                project_translation_tag2: "Localización",
+                project_shareon_title: "🔗 Share On",
+                project_shareon_desc: "Extensión que permite compartir temas del foro en diversas redes sociales con facilidad.",
+                project_tag_extension: "Extensión",
+                project_shareon_tag2: "Redes Sociales",
+                project_ytgallery_title: "🎥 Galería de Videos de YouTube",
+                project_ytgallery_desc: "Crea una galería de videos de YouTube directamente en el foro, organizando el contenido de forma visual.",
+                project_giphy_title: "✨ Giphy",
+                project_giphy_desc: "Integra la búsqueda de GIFs de Giphy directamente en el editor de publicaciones, haciendo las conversaciones más dinámicas.",
+                project_feedbot_title: "🤖 Feed Post Bot",
+                project_feedbot_desc: "Un bot que publica automáticamente contenido de feeds RSS/Atom en un foro específico.",
+                project_feedbot_tag2: "Bot",
+                project_feedbot_tag3: "Automatización",
+                project_button_view: "Ver Proyecto",
+                references_title: "🏆 Referencias",
+                ref_item1_title: "Equipos de Soporte Internacional de phpBB",
+                ref_item1_subtitle: "2011 - presente • 13+ años",
+                ref_item1_desc: "Miembro activo de los equipos de soporte internacional de phpBB, ayudando a usuarios de todo el mundo con problemas técnicos y administrativos.",
+                ref_item1_tag1: "Soporte",
+                ref_item1_tag2: "Internacional",
+                ref_item1_tag3: "Comunidad",
+                ref_item2_title: "Traductor de phpBB - Portugués Brasileño",
+                ref_item2_subtitle: "Coautor • 2011 - presente",
+                ref_item2_desc: "Coautor de la traducción oficial de phpBB al portugués brasileño, responsable de mantener la localización actualizada y culturalmente apropiada.",
+                ref_item2_tag1: "Traducción",
+                ref_item2_tag2: "Portugués",
+                ref_item2_tag3: "Localización",
+                ref_item3_title: "Validadores de Estilos Jr. de phpBB",
+                ref_item3_subtitle: "Jun 2011 - Sep 2011",
+                ref_item3_desc: "Validador júnior de estilos de phpBB, responsable de garantizar la calidad, compatibilidad y conformidad de los temas enviados.",
+                ref_item3_tag1: "Validación",
+                ref_item3_tag2: "Control de Calidad",
+                ref_item3_tag3: "Estilos",
+                ref_item4_title: "Miembro del Equipo de Estilos de phpBB",
+                ref_item4_subtitle: "Sep 2011 - presente • 12+ años",
+                ref_item4_desc: "Miembro oficial del equipo de estilos de phpBB, desarrollando y manteniendo temas oficiales para la plataforma, además de revisar contribuciones de la comunidad.",
+                ref_item4_tag1: "Desarrollo",
+                ref_item4_tag2: "Diseño",
+                ref_item4_tag3: "Equipo Oficial",
+                ref_item5_title: "Suporte phpBB",
+                ref_item5_subtitle: "Administrador • 2011 - presente",
+                ref_item5_desc: "Administrador del principal foro de soporte de phpBB en portugués brasileño, ofreciendo soporte técnico y gestionando la comunidad.",
+                ref_item5_tag1: "Administración",
+                ref_item5_tag2: "Comunidad",
+                ref_item5_tag3: "Brasil",
+                ref_item5_button_visit: "Visitar Foro",
+                donate_title: "💝 Apoya Mi Trabajo",
+                donate_text: "Si te gustan mis extensiones y estilos y quieres mostrar tu aprecio, o apoyar el desarrollo de nuevas extensiones, puedes hacer una donación.",
+                kofi_button_text: "Apoyar en Ko-fi",
+                footer_github: "GitHub",
+                footer_twitter: "Twitter",
+                footer_made_with: "Hecho con"
+            },
+            'pt-BR': {
+                hero_button_about: "Sobre Mim",
+                hero_button_projects: "Projetos",
+                hero_button_support: "Apoiar",
+                about_title: "👨‍💻 Sobre Mim",
+                about_text: "Entusiasta da comunidade phpBB há mais de uma década, tenho o desenvolvimento de software como um hobby. Dedico meu tempo livre à criação de extensões, estilos e traduções, com o objetivo de tornar os fóruns mais acessíveis e funcionais para todos.",
+                projects_title: "🚀 Projetos em Destaque",
+                project_translation_title: "🌐 Tradução para PT-BR",
+                project_translation_desc: "A tradução oficial que torna o phpBB totalmente acessível para a comunidade de língua portuguesa.",
+                project_translation_tag1: "Tradução",
+                project_translation_tag2: "Localização",
+                project_shareon_title: "🔗 Share On",
+                project_shareon_desc: "Extensão que permite compartilhar tópicos do fórum em diversas redes sociais com facilidade.",
+                project_tag_extension: "Extensão",
+                project_shareon_tag2: "Redes Sociais",
+                project_ytgallery_title: "🎥 YouTube Videos Gallery",
+                project_ytgallery_desc: "Cria uma galeria de vídeos do YouTube diretamente no fórum, organizando o conteúdo de forma visual.",
+                project_giphy_title: "✨ Giphy",
+                project_giphy_desc: "Integra a busca de GIFs do Giphy diretamente no editor de postagens, tornando as conversas mais dinâmicas.",
+                project_feedbot_title: "🤖 Feed Post Bot",
+                project_feedbot_desc: "Um bot que posta automaticamente conteúdo de feeds RSS/Atom em um fórum específico.",
+                project_feedbot_tag2: "Bot",
+                project_feedbot_tag3: "Automação",
+                project_button_view: "Ver Projeto",
+                references_title: "🏆 Referências",
+                ref_item1_title: "phpBB International Support Teams",
+                ref_item1_subtitle: "2011 - presente • 13+ anos",
+                ref_item1_desc: "Membro ativo das equipes internacionais de suporte do phpBB, ajudando usuários ao redor do mundo com questões técnicas e administrativas.",
+                ref_item1_tag1: "Support",
+                ref_item1_tag2: "International",
+                ref_item1_tag3: "Community",
+                ref_item2_title: "phpBB Translator - Português Brasileiro",
+                ref_item2_subtitle: "Co-autor • 2011 - presente",
+                ref_item2_desc: "Co-autor da tradução oficial do phpBB para português brasileiro, responsável por manter a localização atualizada e culturalmente apropriada.",
+                ref_item2_tag1: "Translation",
+                ref_item2_tag2: "Portuguese",
+                ref_item2_tag3: "Localization",
+                ref_item3_title: "phpBB Jr. Style Validators",
+                ref_item3_subtitle: "Jun 2011 - Set 2011",
+                ref_item3_desc: "Validador júnior de estilos phpBB, responsável por garantir qualidade, compatibilidade e conformidade dos temas submetidos.",
+                ref_item3_tag1: "Validation",
+                ref_item3_tag2: "Quality Control",
+                ref_item3_tag3: "Styles",
+                ref_item4_title: "phpBB Styles Team Member",
+                ref_item4_subtitle: "Set 2011 - presente • 12+ anos",
+                ref_item4_desc: "Membro oficial da equipe de estilos do phpBB, desenvolvendo e mantendo temas oficiais para a plataforma, além de revisar contribuições da comunidade.",
+                ref_item4_tag1: "Development",
+                ref_item4_tag2: "Design",
+                ref_item4_tag3: "Official Team",
+                ref_item5_title: "Suporte phpBB",
+                ref_item5_subtitle: "Administrador • 2011 - presente",
+                ref_item5_desc: "Administrador do principal fórum de suporte phpBB em português brasileiro, oferecendo suporte técnico e gerenciando a comunidade.",
+                ref_item5_tag1: "Administration",
+                ref_item5_tag2: "Community",
+                ref_item5_tag3: "Brazil",
+                ref_item5_button_visit: "Visitar Fórum",
+                donate_title: "💝 Apoie Meu Trabalho",
+                donate_text: "Se você gosta das minhas extensões e estilos e quer demonstrar apreço, ou apoiar o desenvolvimento de novas extensões, você pode fazer uma doação.",
+                kofi_button_text: "Apoiar no Ko-fi",
+                footer_github: "GitHub",
+                footer_twitter: "Twitter",
+                footer_made_with: "Feito com"
+            }
+        };
+
+        function getLanguage() {
+            const userLang = navigator.language || navigator.userLanguage || 'en';
+            if (userLang.startsWith('es')) return 'es';
+            if (userLang.startsWith('pt')) return 'pt-BR';
+            return 'en';
+        }
+
+        function translatePage(lang) {
+            try {
+                const langDict = translations[lang] || translations['en'];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    const text = langDict[key] || translations['en'][key];
+                    if (text !== undefined) {
+                        el.innerHTML = text;
+                    } else {
+                        console.warn(`Translation key not found: ${key} for lang: ${lang}`);
+                    }
+                });
+                document.documentElement.lang = lang;
+            } catch (error) {
+                console.error("Failed to translate page:", error);
+            }
+        }
+
+        function setupEventListeners() {
+             // Progress Bar
+            window.addEventListener('scroll', () => {
+                const progressBar = document.getElementById('progressBar');
+                if (progressBar) {
+                    const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    if (scrollableHeight > 0) {
+                        const scrolled = (window.scrollY / scrollableHeight) * 100;
+                        progressBar.style.width = Math.min(scrolled, 100) + '%';
+                    }
+                }
+            });
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Animation observers
+            const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, observerOptions);
+
+            const staggerObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => entry.target.classList.add('visible'), index * 200);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+            document.querySelectorAll('.stagger-item').forEach(el => staggerObserver.observe(el));
+            
+            // Typewriter effect cleanup
+            setTimeout(() => {
+                const typewriter = document.querySelector('.typewriter');
+                if (typewriter) typewriter.style.borderRight = 'none';
+            }, 4000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const lang = getLanguage();
+                translatePage(lang);
+                setupEventListeners();
+            } catch (error) {
+                console.error("An error occurred during page initialization:", error);
+            }
+        });
+
+    })();
+    </script>
+</body>
+</html>
