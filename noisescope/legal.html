@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Política de Privacidade – NoiseScope</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/blaze/4.0.0/blaze.min.css">
+  <style>
+    :root {
+      --primary-color: #1e90ff;
+      --primary-dark: #0066cc;
+      --text-color: #2c3e50;
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      color: var(--text-color);
+    }
+
+    .language-selector {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 10px;
+      border-radius: 50px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .language-selector select {
+      border: none;
+      background: transparent;
+      color: var(--primary-color);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 25px;
+    }
+
+    .language-selector select:focus {
+      outline: none;
+      background: rgba(30, 144, 255, 0.1);
+    }
+
+    .hero-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 3rem 0;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-title {
+      color: white;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+      margin-bottom: 0;
+    }
+
+    .main-container {
+      max-width: 1000px;
+      margin: -2rem auto 0;
+      padding: 0 1rem 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      padding: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid var(--primary-color);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .section-title {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-icon {
+      font-size: 1.5rem;
+    }
+
+    .subsection-title {
+      color: var(--primary-dark);
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 1.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(30, 144, 255, 0.1), rgba(30, 144, 255, 0.05));
+      border: 1px solid rgba(30, 144, 255, 0.2);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .feature-list li {
+      background: rgba(30, 144, 255, 0.05);
+      margin: 0.8rem 0;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      border-left: 3px solid var(--primary-color);
+      position: relative;
+    }
+
+    .feature-list li::before {
+      content: "✓";
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+
+    .contact-section {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .contact-email {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .contact-email:hover {
+      background: white;
+      color: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .privacy-badge {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .privacy-badge::before {
+      content: "🛡️";
+      margin-right: 0.5rem;
+    }
+
+    .update-date {
+      background: rgba(30, 144, 255, 0.1);
+      color: var(--primary-dark);
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .content-card, .section-card {
+        padding: 1.5rem;
+      }
+      
+      .main-container {
+        padding: 0 0.5rem 2rem;
+      }
+
+      .language-selector {
+        top: 10px;
+        right: 10px;
+        padding: 5px;
+      }
+    }
+
+    .no-data-emphasis {
+      background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+      border: 2px solid rgba(46, 204, 113, 0.3);
+      border-radius: 15px;
+      padding: 1.5rem;
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+
+    .no-data-emphasis strong {
+      color: #27ae60;
+      font-size: 1.1rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="language-selector">
+    <select id="languageSelect" onchange="changeLanguage()">
+      <option value="pt-BR">🇧🇷 Português</option>
+      <option value="en">🇺🇸 English</option>
+      <option value="es">🇪🇸 Español</option>
+    </select>
+  </div>
+
+  <!-- PORTUGUÊS BRASILEIRO -->
+  <div id="content-pt-BR" class="language-content">
+    <div class="hero-section">
+      <div class="o-container">
+        <h1 class="hero-title">🔊 Barulhômetro</h1>
+        <p class="hero-subtitle">Política de Privacidade Transparente</p>
+      </div>
+    </div>
+
+    <div class="main-container">
+      <div class="content-card">
+        <div class="privacy-badge">Privacidade Garantida</div>
+        <div class="update-date">
+          📅 Última atualização: 1 de agosto de 2025
+        </div>
+        
+        <div class="highlight-box">
+          <p><strong>Sua privacidade é nossa prioridade.</strong> Esta Política de Privacidade explica como o aplicativo <strong>Barulhômetro</strong> coleta, usa e protege suas informações. Ao utilizar nosso aplicativo, você concorda com os termos descritos abaixo.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">📊</span>
+          1. Coleta de Informações
+        </h2>
+        
+        <div class="no-data-emphasis">
+          <p><strong>O Barulhômetro NÃO coleta, grava, armazena, transmite ou compartilha nenhuma informação pessoal do usuário.</strong></p>
+        </div>
+
+        <h3 class="subsection-title">🔇 Uso do Microfone</h3>
+        <ul class="feature-list">
+          <li>O microfone é utilizado <strong>somente localmente</strong> para medir o volume do som ambiente (nível de decibéis).</li>
+          <li><strong>Nenhum áudio é gravado, transmitido ou salvo.</strong></li>
+        </ul>
+
+        <h3 class="subsection-title">📱 Dados do Dispositivo</h3>
+        <ul class="feature-list">
+          <li>O app <strong>não acessa nenhum dado pessoal</strong>, como contatos, localização, fotos ou arquivos.</li>
+          <li>Informações técnicas básicas como modelo do dispositivo ou versão do Android podem ser usadas <strong>anonimamente</strong> via Google Play Console para fins estatísticos e de compatibilidade.</li>
+        </ul>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🤝</span>
+          2. Compartilhamento de Informações
+        </h2>
+        <div class="highlight-box">
+          <p>O Barulhômetro <strong>não compartilha dados com terceiros</strong>.</p>
+          <p>O recurso de <strong>captura e compartilhamento de imagens</strong> é opcional e controlado por você. As imagens não são enviadas a servidores externos.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🍪</span>
+          3. Cookies e Tecnologias Semelhantes
+        </h2>
+        <div class="highlight-box">
+          <p>Este aplicativo <strong>não utiliza cookies</strong> ou tecnologias de rastreamento.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">📢</span>
+          4. Anúncios e Terceiros
+        </h2>
+        <div class="highlight-box">
+          <p>Atualmente, a versão disponível do aplicativo <strong>não exibe anúncios</strong> e está livre de rastreadores.</p>
+          <p>Se versões futuras incluírem publicidade, esta política será atualizada.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🔒</span>
+          5. Segurança
+        </h2>
+        <div class="highlight-box">
+          <p>Tomamos medidas para proteger a execução do app, mas lembre-se de que <strong>nenhuma tecnologia é 100% segura</strong>. Recomendamos manter seu Android atualizado.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">⚖️</span>
+          6. Direitos do Usuário
+        </h2>
+        <div class="highlight-box">
+          <p>Como não coletamos dados pessoais, <strong>não armazenamos informações</strong> que possam ser solicitadas, corrigidas ou excluídas.</p>
+          <p>Se isso mudar no futuro, você será informado previamente.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🔄</span>
+          7. Alterações na Política de Privacidade
+        </h2>
+        <div class="highlight-box">
+          <p>Podemos atualizar esta política a qualquer momento. Mudanças relevantes serão comunicadas no app ou na Play Store.</p>
+        </div>
+      </div>
+
+      <div class="contact-section">
+        <h2 class="section-title" style="color: white; justify-content: center;">
+          <span class="section-icon">📧</span>
+          8. Contato
+        </h2>
+        <p>Em caso de dúvidas, entre em contato conosco:</p>
+        <a href="mailto:vinny@vinny.quest" class="contact-email">
+          vinny@vinny.quest
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENGLISH -->
+  <div id="content-en" class="language-content hidden">
+    <div class="hero-section">
+      <div class="o-container">
+        <h1 class="hero-title">🔊 NoiseScope</h1>
+        <p class="hero-subtitle">Transparent Privacy Policy</p>
+      </div>
+    </div>
+
+    <div class="main-container">
+      <div class="content-card">
+        <div class="privacy-badge">Privacy Guaranteed</div>
+        <div class="update-date">
+          📅 Last updated: August 1, 2025
+        </div>
+        
+        <div class="highlight-box">
+          <p><strong>Your privacy is our priority.</strong> This Privacy Policy explains how the <strong>NoiseScope</strong> app collects, uses, and protects your information. By using our app, you agree to the terms described below.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">📊</span>
+          1. Information Collection
+        </h2>
+        
+        <div class="no-data-emphasis">
+          <p><strong>NoiseScope does NOT collect, record, store, transmit, or share any personal user information.</strong></p>
+        </div>
+
+        <h3 class="subsection-title">🔇 Microphone Usage</h3>
+        <ul class="feature-list">
+          <li>The microphone is used <strong>locally only</strong> to measure ambient sound volume (decibel level).</li>
+          <li><strong>No audio is recorded, transmitted, or saved.</strong></li>
+        </ul>
+
+        <h3 class="subsection-title">📱 Device Data</h3>
+        <ul class="feature-list">
+          <li>The app <strong>does not access any personal data</strong>, such as contacts, location, photos, or files.</li>
+          <li>Basic technical information such as device model or Android version may be used <strong>anonymously</strong> via Google Play Console for statistical and compatibility purposes.</li>
+        </ul>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🤝</span>
+          2. Information Sharing
+        </h2>
+        <div class="highlight-box">
+          <p>NoiseScope <strong>does not share data with third parties</strong>.</p>
+          <p>The <strong>image capture and sharing</strong> feature is optional and controlled by you. Images are not sent to external servers.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🍪</span>
+          3. Cookies and Similar Technologies
+        </h2>
+        <div class="highlight-box">
+          <p>This app <strong>does not use cookies</strong> or tracking technologies.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">📢</span>
+          4. Advertising and Third Parties
+        </h2>
+        <div class="highlight-box">
+          <p>Currently, the available version of the app <strong>does not display ads</strong> and is free of trackers.</p>
+          <p>If future versions include advertising, this policy will be updated.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🔒</span>
+          5. Security
+        </h2>
+        <div class="highlight-box">
+          <p>We take measures to protect the app's execution, but remember that <strong>no technology is 100% secure</strong>. We recommend keeping your Android updated.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">⚖️</span>
+          6. User Rights
+        </h2>
+        <div class="highlight-box">
+          <p>Since we don't collect personal data, <strong>we don't store information</strong> that can be requested, corrected, or deleted.</p>
+          <p>If this changes in the future, you will be informed in advance.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🔄</span>
+          7. Privacy Policy Changes
+        </h2>
+        <div class="highlight-box">
+          <p>We may update this policy at any time. Relevant changes will be communicated in the app or on the Play Store.</p>
+        </div>
+      </div>
+
+      <div class="contact-section">
+        <h2 class="section-title" style="color: white; justify-content: center;">
+          <span class="section-icon">📧</span>
+          8. Contact
+        </h2>
+        <p>If you have any questions, please contact us:</p>
+        <a href="mailto:suporte.noisescope@gmail.com" class="contact-email">
+          suporte.noisescope@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESPAÑOL -->
+  <div id="content-es" class="language-content hidden">
+    <div class="hero-section">
+      <div class="o-container">
+        <h1 class="hero-title">🔊 NoiseScope</h1>
+        <p class="hero-subtitle">Política de Privacidad Transparente</p>
+      </div>
+    </div>
+
+    <div class="main-container">
+      <div class="content-card">
+        <div class="privacy-badge">Privacidad Garantizada</div>
+        <div class="update-date">
+          📅 Última actualización: 1 de agosto de 2025
+        </div>
+        
+        <div class="highlight-box">
+          <p><strong>Su privacidad es nuestra prioridad.</strong> Esta Política de Privacidad explica cómo la aplicación <strong>NoiseScope</strong> recopila, usa y protege su información. Al utilizar nuestra aplicación, usted acepta los términos descritos a continuación.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">📊</span>
+          1. Recopilación de Información
+        </h2>
+        
+        <div class="no-data-emphasis">
+          <p><strong>NoiseScope NO recopila, graba, almacena, transmite o comparte ninguna información personal del usuario.</strong></p>
+        </div>
+
+        <h3 class="subsection-title">🔇 Uso del Micrófono</h3>
+        <ul class="feature-list">
+          <li>El micrófono se utiliza <strong>solo localmente</strong> para medir el volumen del sonido ambiente (nivel de decibelios).</li>
+          <li><strong>Ningún audio es grabado, transmitido o guardado.</strong></li>
+        </ul>
+
+        <h3 class="subsection-title">📱 Datos del Dispositivo</h3>
+        <ul class="feature-list">
+          <li>La aplicación <strong>no accede a ningún dato personal</strong>, como contactos, ubicación, fotos o archivos.</li>
+          <li>Información técnica básica como modelo del dispositivo o versión de Android puede ser utilizada <strong>anónimamente</strong> a través de Google Play Console para fines estadísticos y de compatibilidad.</li>
+        </ul>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🤝</span>
+          2. Compartir Información
+        </h2>
+        <div class="highlight-box">
+          <p>NoiseScope <strong>no comparte datos con terceros</strong>.</p>
+          <p>La función de <strong>captura y compartir imágenes</strong> es opcional y controlada por usted. Las imágenes no se envían a servidores externos.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🍪</span>
+          3. Cookies y Tecnologías Similares
+        </h2>
+        <div class="highlight-box">
+          <p>Esta aplicación <strong>no utiliza cookies</strong> o tecnologías de seguimiento.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">📢</span>
+          4. Publicidad y Terceros
+        </h2>
+        <div class="highlight-box">
+          <p>Actualmente, la versión disponible de la aplicación <strong>no muestra anuncios</strong> y está libre de rastreadores.</p>
+          <p>Si las versiones futuras incluyen publicidad, esta política será actualizada.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🔒</span>
+          5. Seguridad
+        </h2>
+        <div class="highlight-box">
+          <p>Tomamos medidas para proteger la ejecución de la aplicación, pero recuerde que <strong>ninguna tecnología es 100% segura</strong>. Recomendamos mantener su Android actualizado.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">⚖️</span>
+          6. Derechos del Usuario
+        </h2>
+        <div class="highlight-box">
+          <p>Como no recopilamos datos personales, <strong>no almacenamos información</strong> que pueda ser solicitada, corregida o eliminada.</p>
+          <p>Si esto cambia en el futuro, será informado con anticipación.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">
+          <span class="section-icon">🔄</span>
+          7. Cambios en la Política de Privacidad
+        </h2>
+        <div class="highlight-box">
+          <p>Podemos actualizar esta política en cualquier momento. Los cambios relevantes serán comunicados en la aplicación o en Play Store.</p>
+        </div>
+      </div>
+
+      <div class="contact-section">
+        <h2 class="section-title" style="color: white; justify-content: center;">
+          <span class="section-icon">📧</span>
+          8. Contacto
+        </h2>
+        <p>En caso de dudas, contáctenos:</p>
+        <a href="mailto:suporte.noisescope@gmail.com" class="contact-email">
+          suporte.noisescope@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blaze/4.0.0/blaze.min.js"></script>
+  <script>
+    // Função para detectar idioma do navegador
+    function detectLanguage() {
+      const browserLang = navigator.language || navigator.userLanguage;
+      const lang = browserLang.toLowerCase();
+      
+      if (lang.startsWith('pt')) {
+        return 'pt-BR';
+      } else if (lang.startsWith('es')) {
+        return 'es';
+      } else {
+        return 'en'; // Default para inglês
+      }
+    }
+
+    // Função para mudar idioma
+    function changeLanguage() {
+      const selectedLang = document.getElementById('languageSelect').value;
+      
+      // Esconder todos os conteúdos
+      document.querySelectorAll('.language-content').forEach(content => {
+        content.classList.add('hidden');
+      });
+      
+      // Mostrar conteúdo selecionado
+      document.getElementById('content-' + selectedLang).classList.remove('hidden');
+      
+      // Atualizar lang do HTML
+      document.documentElement.lang = selectedLang;
+      
+      // Salvar preferência no localStorage (se disponível)
+      try {
+        localStorage.setItem('noisescope-lang', selectedLang);
+      } catch (e) {
+        // Fallback se localStorage não estiver disponível
+        console.log('Language preference saved in session');
+      }
+    }
+
+    // Inicializar página
+    function initializePage() {
+      let savedLang;
+      
+      // Tentar recuperar idioma salvo
+      try {
+        savedLang = localStorage.getItem('noisescope-lang');
+      } catch (e) {
+        savedLang = null;
+      }
+      
+      // Usar idioma salvo ou detectar automaticamente
+      const language = savedLang || detectLanguage();
+      
+      // Definir seletor de idioma
+      document.getElementById('languageSelect').value = language;
+      
+      // Aplicar idioma
+      changeLanguage();
+    }
+
+    // Inicializar quando a página carregar
+    document.addEventListener('DOMContentLoaded', initializePage);
+  </script>
+</body>
+</html>
